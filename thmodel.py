@@ -10,7 +10,7 @@ class ThNetDynamic(NeuralNetworkBase):
     def __init__(self, data, eta, lmbd1, lmbd2, mu, cost):
         NeuralNetworkBase.__init__(self, data, eta, lmbd1, lmbd2, mu)
 
-        inshape, _ = data.neurons_required()
+        inshape, _ = data.neurons_required
 
         if isinstance(inshape, int):
             inshape = (inshape,)
@@ -35,14 +35,14 @@ class ThNetDynamic(NeuralNetworkBase):
         self.finalized = False
 
     def add_convpool(self, conv, filters, pool):
-        from layers import ThConvPoolLayer
+        from .layers import ThConvPoolLayer
         pos, fanin = self._layeradd_prepare()
 
         self.architecture.append("Conv({}x{}x{}); Pool({})".format(filters, conv, conv, pool))
         self.layers.append(ThConvPoolLayer(conv, filters, pool, fanin, pos))
 
     def add_fc(self, neurons, activation="sigmoid"):
-        from layers import ThFCLayer
+        from .layers import ThFCLayer
         if activation == "softmax":
             if neurons != self.outsize:
                 print("Warning! Assumed creation of output layer, but got wrong number of neurons!")
