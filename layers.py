@@ -168,11 +168,11 @@ class ThLSTM(_ThLayerBase):
 
         z = inputs.dot(self.input_weights) + self.biases
 
-        (y, last_c), updates = theano.scan(step,
-                                           sequences=z,
-                                           truncate_gradient=self.truncate,
-                                           outputs_info=(T.zeros((self.outshape,)),
-                                                         T.zeros((self.outshape,))))
+        (y, last_c), _ = theano.scan(step,
+                                     sequences=z,
+                                     truncate_gradient=self.truncate,
+                                     outputs_info=(T.zeros((self.outshape,)),
+                                                   T.zeros((self.outshape,))))
         return y
 
     @property
