@@ -131,22 +131,15 @@ class ThRLayer(_ThLayerBase):
 
 
 class ThLSTM(_ThLayerBase):
-    def __init__(self, neurons, inputs, position, truncation=10):
+    def __init__(self, timestep, ngram, neurons, position, truncation=10):
         _ThLayerBase.__init__(self, inputs, position)
         self._outshape = neurons
-        self.input_weights = theano.shared(
-            (np.random.randn(4, self.fanin, neurons) / np.sqrt(self.fanin))
-            .astype(floatX), name="Input Gates")
-
-        self.state_weights = theano.shared(
-            (np.random.randn(4, neurons, neurons) / np.sqrt(neurons))
-            .astype(floatX), name="State Gates")
-
-        self.biases = theano.shared(
-            np.zeros((4, neurons), dtype=floatX), name="Biases")
-
+        self.weights = theano.shared(
+            (np.random.randn(4, self.fanin + neurons) / np.sqrt(self.fanin))
+            .astype(floatX), name="Weights_GigaMatrix"
+        )
         self.cell_state = theano.shared(
-            np.zeros((neurons, neurons), dtype=floatX), name="Cell State")
+            np.zeros((), dtype=floatX), name="Cell State")
 
         self.truncate = truncation
         self.params = self.input_weights, self.state_weights, self.biases
