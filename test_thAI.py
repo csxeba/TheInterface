@@ -1,7 +1,8 @@
 import sys
 
-from thmodel import ThNetDynamic
-from csxnet.data import CData, mnist_to_lt
+from TheInterface.thmodel import ThNetDynamic
+from csxdata import CData
+from csxdata.utilities.parsers import mnist_tolearningtable as mnist_to_lt
 
 dataroot = "D:/Data/" if sys.platform == "win32" else "/data/Prog/data/"
 miscroot = dataroot + "misc/"
@@ -20,7 +21,7 @@ def teach(net, epochs=10, bsize=10):
 
 print("Pulling data")
 data = CData(mnist_to_lt(miscpath))
-data.self_standardize()
+data.transformation = "std"
 
 print("Building network")
 thnet = ThNetDynamic(data, 0.1, 0.0, 5.0, 0.0, "xent")
